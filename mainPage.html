@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dyslexia Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(120deg, #3498db, #8e44ad);
+        }
+
+        #difficulty-container {
+            position: fixed;
+            top: 10px;
+            right: 20px;
+            background: linear-gradient(120deg, #91c2df, #a12ed3);
+            padding: 10px;
+            border-radius: 10px;
+            text-align: right;
+            margin-bottom: 50px;
+        }
+
+        #stars-container {
+            position: fixed;
+            top: 90px;
+            /* Adjusted top value */
+            right: 20px;
+            background: linear-gradient(120deg, #91c2df, #a12ed3);
+            padding: 10px;
+            border-radius: 10px;
+            text-align: right;
+            margin-bottom: 30px;
+        }
+
+        #difficulty,
+        #stars {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        #levels-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 70px;
+            /* Adjusted margin for levels */
+        }
+
+        .level {
+            cursor: pointer;
+            border: 2px solid #ccc;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: background-color 0.3s;
+            position: relative;
+            background-color: #fff;
+            /* White background color for levels */
+            min-width: 120px;
+            /* Set a minimum width for better visibility */
+            margin-bottom: 20px;
+        }
+
+        .level:hover {
+            background-color: #e0e0e0;
+        }
+
+
+        .arrow-left {
+            left: -15px;
+        }
+
+        .arrow-right {
+            right: -15px;
+        }
+
+        /* Increase font size and bold letters and digits */
+        .level {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="difficulty-container">
+        <b><label for="difficulty">Nivel dificultate:</label></b>
+        <select id="difficulty">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+    </div>
+
+    <div id="stars-container">
+        <span style="font-size:300%;color:rgb(239, 239, 63);">&starf; &starf; &starf; 0</span>
+    </div>
+
+    <div id="levels-container">
+        <div class="level" onclick="startLevel(1,getSelectedDifficulty())">
+            <span class="arrow arrow-right"></span>
+            1 2 3
+        </div>
+        <div class="level" onclick="startLevel(2,getSelectedDifficulty())">
+            <span class="arrow arrow-left"></span>
+            <span class="arrow arrow-right"></span>
+            <img src="./sound.png" alt="A B C">
+            A B C
+        </div>
+        <div class="level" onclick="startLevel(3,getSelectedDifficulty())">
+            <span class="arrow arrow-left"></span>
+            <div style="display: flex; justify-content: space-around;">
+                <img src="./Imagini_Litere/avion.png" alt="Sound" width="50px" height="50px">
+                <img src="./Imagini_Litere/elefant.png" alt="Sound" width="50px" height="50px">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function getStarsCountFromURL() {
+            let params = new URLSearchParams(window.location.search);
+            return parseInt(params.get('stars')) || 0;  // Returns 0 if 'stars' param is not present
+        }
+
+        function startLevel(level, difficulty) {
+            let currentStars = getStarsCountFromURL();
+            console.log(difficulty * 10);
+            console.log(level);
+            switch (level) {
+                case 1:
+                    switch (difficulty) {
+                        case 1:
+                            window.location.href = `NumberPage1/numberPage.html?stars=${currentStars}`;
+                            break;
+                        case 2:
+                            window.location.href = `NumberPage2/numberPage.html?stars=${currentStars}`;
+                            break;
+                        case 3:
+                            window.location.href = `NumberPage3/numberPage.html?stars=${currentStars}`;
+                            break;
+                    }
+                    break;
+                case 2:
+                    switch (difficulty) {
+                        case 1:
+                            window.location.href = `LetterPage2/letterPage.html?stars=${currentStars}`;
+                            break;
+                        case 2:
+                            window.location.href = `LetterPage1/letterPage.html?stars=${currentStars}`;
+                            break;
+                        case 3:
+                            window.location.href = `LetterPage3/letterPage.html?stars=${currentStars}`;
+                            break;
+                    }
+                    break;
+                case 3:
+                    switch(difficulty){
+                        case 1:
+                            window.location.href = `ImageLetterPage1/imageLetterPage.html?stars=${currentStars}`;
+                            break;
+                        case 2:
+                            window.location.href = `ImageLetterPage2/imageLetterPage.html?stars=${currentStars}`;
+                            break;
+                        case 3:
+                            window.location.href = `ImageLetterPage3/imageLetterPage.html?stars=${currentStars}`;
+                            break;
+                    }
+            }
+        }
+
+        function getSelectedDifficulty() {
+            // Get the <select> element by its ID
+            var difficultySelect = document.getElementById("difficulty");
+
+            // Get the selected option
+            var selectedOption = difficultySelect.options[difficultySelect.selectedIndex];
+
+            // Parse the value of the selected option as an integer
+            var selectedDifficulty = parseInt(selectedOption.value);
+
+            // Check if the parsing was successful, and return the result
+            if (!isNaN(selectedDifficulty)) {
+                return selectedDifficulty;
+            } else {
+                // Default value or error handling if the parsing fails
+                return 1; // Defaulting to 1 in case of an issue
+            }
+        }
+
+        
+        
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(function () {
+                var startingSound = new Audio('welcomeSound.mp3');
+                
+
+                startingSound.play();
+            }, 1500);
+
+            let starsCount = getStarsCountFromURL();
+            document.getElementById('stars-container').innerHTML =
+                `<span style="font-size:300%;color:rgb(239, 239, 63);">&starf; &starf; &starf; ${starsCount}</span>`;
+        });
+
+    </script>
+</body>
+
+</html>
